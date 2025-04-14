@@ -47,14 +47,13 @@ const AddProductModal = () => {
       (document.querySelector("input[type='file']") as HTMLInputElement).value =
         "";
     } catch (error) {
-      console.error(error);
       setMessage("Upload Failed");
     } finally {
       setUploading(false);
     }
   };
 
-  console.log(formData);
+  
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
