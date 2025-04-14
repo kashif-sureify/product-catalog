@@ -4,7 +4,6 @@ import { Product } from "../models/productModel";
 
 type ProductRow = Product & RowDataPacket;
 
-// Fetch all products
 export const getProducts = async (
   limit: number,
   offset: number
@@ -20,7 +19,6 @@ export const getProducts = async (
   }
 };
 
-// Fetch all products
 export const getTotalProducts = async (): Promise<number> => {
   try {
     const [rows] = await pool.query("SELECT COUNT(*) as count FROM products");
@@ -30,7 +28,6 @@ export const getTotalProducts = async (): Promise<number> => {
   }
 };
 
-// Fetch a single product by ID
 export const getProductById = async (id: number): Promise<Product | null> => {
   try {
     const [rows] = await pool.query<ProductRow[]>(

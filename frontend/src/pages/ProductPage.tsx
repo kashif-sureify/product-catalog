@@ -115,7 +115,6 @@ const ProductPage = () => {
               }
             }}
           >
-            {/* PRODUCT NAME */}
             <div className="form-control">
               <label className="label">
                 <span className="label-text text-base font-medium my-1">
@@ -133,7 +132,6 @@ const ProductPage = () => {
               />
             </div>
 
-            {/* PRODUCT Description */}
             <div className="form-control">
               <label className="label">
                 <span className="label-text text-base font-medium my-1">
@@ -151,7 +149,6 @@ const ProductPage = () => {
               />
             </div>
 
-            {/* PRODUCT PRICE */}
             <div className="form-control">
               <label className="label">
                 <span className="label-text text-base font-medium my-1">
@@ -171,7 +168,6 @@ const ProductPage = () => {
               />
             </div>
 
-            {/* PRODUCT STOCK */}
             <div className="form-control">
               <label className="label">
                 <span className="label-text text-base font-medium my-1">
@@ -190,8 +186,6 @@ const ProductPage = () => {
                 }
               />
             </div>
-
-            {/* Product image */}
 
             <div className="form-control">
               <label className="label">
@@ -213,7 +207,7 @@ const ProductPage = () => {
                   onClick={handleUpload}
                   disabled={!file || uploading}
                 >
-                  Upload {/* {uploading ? "Uploading..." : "Upload"} */}
+                  {uploading ? "Uploading..." : "Upload"}
                 </button>
               </div>
               {message && (
@@ -221,19 +215,17 @@ const ProductPage = () => {
               )}
             </div>
 
-            {/* IMAGE PREVIEW */}
             {formData.image && (
               <div className="mt-4">
                 <p className="text-sm font-medium mb-1">Current Image:</p>
                 <img
-                  src={`/api/uploads/${formData.image}`} // adjust path if needed
+                  src={`/api/uploads/${formData.image}`}
                   alt="Product"
                   className="h-32 object-cover rounded border"
                 />
               </div>
             )}
 
-            {/* FORM ACTIONS */}
             <div className="flex justify-between mt-8">
               <button
                 type="button"

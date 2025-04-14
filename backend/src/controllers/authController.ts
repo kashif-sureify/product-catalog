@@ -21,12 +21,11 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    // Set cookie
     res.cookie("token", result?.token, {
       httpOnly: true,
       sameSite: "lax",
       secure: false,
-      maxAge: 3600000, // 1 hour
+      maxAge: 3600000,
     });
 
     res.status(201).json({ success: true, user: result?.user });

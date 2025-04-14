@@ -53,8 +53,6 @@ const AddProductModal = () => {
     }
   };
 
-  
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     addProduct(e);
@@ -76,10 +74,7 @@ const AddProductModal = () => {
         </button>
         <h3 className="font-bold text-xl mb-8">Add New Product</h3>
 
-        {/* Form */}
-
         <form className="space-y-6" onSubmit={handleSubmit}>
-          {/* PRODUCT NAME */}
           <div className="form-control">
             <label className="label">
               <span className="label-text text-base font-medium my-1">
@@ -97,7 +92,6 @@ const AddProductModal = () => {
             />
           </div>
 
-          {/* PRODUCT Description */}
           <div className="form-control">
             <label className="label">
               <span className="label-text text-base font-medium my-1">
@@ -115,7 +109,6 @@ const AddProductModal = () => {
             />
           </div>
 
-          {/* PRODUCT PRICE */}
           <div className="form-control">
             <label className="label">
               <span className="label-text text-base font-medium my-1">
@@ -135,7 +128,6 @@ const AddProductModal = () => {
             />
           </div>
 
-          {/* PRODUCT STOCK */}
           <div className="form-control">
             <label className="label">
               <span className="label-text text-base font-medium my-1">
@@ -154,8 +146,6 @@ const AddProductModal = () => {
               }
             />
           </div>
-
-          {/* Product image */}
 
           <div className="form-control">
             <label className="label">
@@ -185,19 +175,17 @@ const AddProductModal = () => {
             )}
           </div>
 
-          {/* IMAGE PREVIEW */}
           {formData.image && (
             <div className="mt-4">
               <p className="text-sm font-medium mb-1">Current Image:</p>
               <img
-                src={`/api/uploads/${formData.image}`} // adjust path if needed
+                src={`/api/uploads/${formData.image}`}
                 alt="Product"
                 className="h-32 object-cover rounded border"
               />
             </div>
           )}
 
-          {/* FORM ACTIONS */}
           <div className="modal-action flex justify-between mt-8">
             <button
               type="button"
@@ -236,7 +224,6 @@ const AddProductModal = () => {
         </form>
       </div>
 
-      {/* Backdrop */}
       <form method="dialog" className="modal-backdrop">
         <button>close</button>
       </form>

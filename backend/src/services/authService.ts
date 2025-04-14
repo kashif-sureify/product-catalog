@@ -18,7 +18,6 @@ export const signup = async (
     [username, email, hashedPassword]
   );
 
-  // Fetch newly created user
   const [rows] = await pool.query<RowDataPacket[]>(
     "SELECT * FROM users WHERE email = ?",
     [email]
@@ -28,7 +27,6 @@ export const signup = async (
 
   const user = rows[0];
 
-  // Generate token
   const token = jwt.sign(
     { id: user.id, email: user.email },
     process.env.JWT_SECRET as string,
