@@ -3,6 +3,7 @@ import pool from "../config/db";
 import { Product } from "../models/productModel";
 
 type ProductRow = Product & RowDataPacket;
+type CountResult = { count: number };
 
 export const getProducts = async (
   limit: number,
@@ -14,7 +15,7 @@ export const getProducts = async (
       [limit, offset]
     );
     return rows;
-  } catch (error) {
+  } catch {
     throw new Error("Failed to fetch all products");
   }
 };
@@ -22,8 +23,9 @@ export const getProducts = async (
 export const getTotalProducts = async (): Promise<number> => {
   try {
     const [rows] = await pool.query("SELECT COUNT(*) as count FROM products");
-    return (rows as any)[0].count;
-  } catch (error) {
+    const result = rows as CountResult[];
+    return result[0].count;
+  } catch {
     throw new Error("Failed to fetch product total count");
   }
 };
@@ -36,7 +38,7 @@ export const getProductById = async (id: number): Promise<Product | null> => {
     );
 
     return rows.length > 0 ? rows[0] : null;
-  } catch (error) {
+  } catch {
     throw new Error("Failed to fetch a product");
   }
 };
@@ -57,7 +59,7 @@ export const createProduct = async (
     }
 
     return await getProductById(insertedId);
-  } catch (error) {
+  } catch {
     throw new Error("Failed to add new product");
   }
 };
@@ -92,7 +94,7 @@ export const updateProduct = async (
     }
 
     return await getProductById(id);
-  } catch (error) {
+  } catch {
     throw new Error("Failed to update a product");
   }
 };
@@ -108,7 +110,7 @@ export const deleteProduct = async (id: number): Promise<boolean> => {
       return false;
     }
     return true;
-  } catch (error) {
+  } catch {
     throw new Error("Failed to delete a product");
   }
 };

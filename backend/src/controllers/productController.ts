@@ -23,11 +23,11 @@ export const getProducts = async (
       data: products,
     });
     return;
-  } catch (error) {
-    throw new Error("Something went wrong in update product controller");
+  } catch {
     res
       .status(500)
       .json({ status: 500, success: false, message: "Internal Server Error" });
+    throw new Error("Something went wrong in update product controller");
   }
 };
 
@@ -38,13 +38,17 @@ export const getProduct = async (
   const { id } = req.params;
   try {
     const product = await productService.getProductById(Number(id));
-    product
-      ? res.status(200).json({ status: 200, success: true, data: product })
-      : res
-          .status(404)
-          .json({ status: 404, success: false, message: "Product not found" });
+
+    if (product) {
+      res.status(200).json({ status: 200, success: true, data: product });
+      return;
+    }
+    res
+      .status(404)
+      .json({ status: 404, success: false, message: "Product not found" });
+
     return;
-  } catch (error) {
+  } catch {
     res
       .status(500)
       .json({ status: 500, success: false, message: "Internal Server Error" });
@@ -75,7 +79,7 @@ export const createProduct = async (
       image,
     });
     res.status(201).json({ status: 201, success: true, data: newProduct });
-  } catch (error) {
+  } catch {
     res
       .status(500)
       .json({ status: 500, success: false, message: "Internal Server Error" });
@@ -93,15 +97,19 @@ export const updateProduct = async (
       Number(id),
       req.body
     );
-    updatedProduct
-      ? res
-          .status(200)
-          .json({ status: 200, success: true, data: updatedProduct })
-      : res
-          .status(404)
-          .json({ status: 404, success: false, message: "Product not found" });
+
+    if (updatedProduct) {
+      res
+        .status(200)
+        .json({ status: 200, success: true, data: updatedProduct });
+      return;
+    }
+    res
+      .status(404)
+      .json({ status: 404, success: false, message: "Product not found" });
+
     return;
-  } catch (error) {
+  } catch {
     res
       .status(500)
       .json({ status: 500, success: false, message: "Internal Server Error" });
@@ -115,17 +123,21 @@ export const deleteProduct = async (
   const { id } = req.params;
   try {
     const deleted = await productService.deleteProduct(Number(id));
-    deleted
-      ? res.status(200).json({
-          status: 200,
-          success: true,
-          message: "Product deleted successfully",
-        })
-      : res
-          .status(404)
-          .json({ status: 404, success: false, message: "Product not found" });
+
+    if (deleted) {
+      res.status(200).json({
+        status: 200,
+        success: true,
+        message: "Product deleted successfully",
+      });
+      return;
+    }
+    res
+      .status(404)
+      .json({ status: 404, success: false, message: "Product not found" });
+
     return;
-  } catch (error) {
+  } catch {
     res
       .status(500)
       .json({ status: 500, success: false, message: "Internal Server Error" });

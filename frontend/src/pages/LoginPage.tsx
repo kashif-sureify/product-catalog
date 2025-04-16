@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { Link } from "react-router-dom";
 
@@ -34,7 +34,9 @@ const LoginPage = () => {
                 placeholder="you@example.com"
                 id="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  return setEmail(e.target.value);
+                }}
               />
             </div>
 
@@ -51,7 +53,9 @@ const LoginPage = () => {
                 placeholder="************"
                 id="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  return setPassword(e.target.value);
+                }}
               />
             </div>
             <button className="w-full py-2 text-white bg-red-600 font-semibold rounded-md hover:bg-red-700">
@@ -60,7 +64,7 @@ const LoginPage = () => {
           </form>
 
           <div className="text-center text-gray-400">
-            Don't have an account ?{" "}
+            Don`&apos;` t have an account ?{" "}
             <Link to={"/signup"} className="text-red-500 hover:underline">
               Sign up
             </Link>

@@ -1,7 +1,7 @@
 import { Loader, SaveIcon, Trash2Icon } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useProductStore } from "../store/useProductStore";
-import { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import axios from "axios";
 
 const ProductPage = () => {
@@ -17,7 +17,6 @@ const ProductPage = () => {
     error,
   } = useProductStore();
   const [file, setFile] = useState<File | null>(null);
-  file;
   const [message, setMessage] = useState<string>("");
   const [uploading, setUploading] = useState<boolean>(false);
 
@@ -76,7 +75,7 @@ const ProductPage = () => {
       setFile(null);
       (document.querySelector("input[type='file']") as HTMLInputElement).value =
         "";
-    } catch (error) {
+    } catch {
       setMessage("Upload Failed");
     } finally {
       setUploading(false);
@@ -96,7 +95,9 @@ const ProductPage = () => {
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl justify-items-center">
       <button
-        onClick={() => navigate("/")}
+        onClick={() => {
+          return navigate("/");
+        }}
         className="btn btn-success btn-outline mb-8 absolute"
       >
         Back to Product
@@ -126,9 +127,9 @@ const ProductPage = () => {
                 placeholder="Enter product name"
                 className="input input-bordered w-full my-1"
                 value={formData.name}
-                onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
-                }
+                onChange={(e) => {
+                  return setFormData({ ...formData, name: e.target.value });
+                }}
               />
             </div>
 
@@ -143,9 +144,12 @@ const ProductPage = () => {
                 placeholder="Enter product description"
                 className="input input-bordered w-full my-1"
                 value={formData.description}
-                onChange={(e) =>
-                  setFormData({ ...formData, description: e.target.value })
-                }
+                onChange={(e) => {
+                  return setFormData({
+                    ...formData,
+                    description: e.target.value,
+                  });
+                }}
               />
             </div>
 
@@ -162,9 +166,12 @@ const ProductPage = () => {
                 placeholder="$ 0.00"
                 className="input input-bordered w-full my-1"
                 value={formData.price ?? ""}
-                onChange={(e) =>
-                  setFormData({ ...formData, price: Number(e.target.value) })
-                }
+                onChange={(e) => {
+                  return setFormData({
+                    ...formData,
+                    price: Number(e.target.value),
+                  });
+                }}
               />
             </div>
 
@@ -181,9 +188,12 @@ const ProductPage = () => {
                 placeholder="0"
                 className="input input-bordered w-full my-1"
                 value={formData.stock ?? ""}
-                onChange={(e) =>
-                  setFormData({ ...formData, stock: Number(e.target.value) })
-                }
+                onChange={(e) => {
+                  return setFormData({
+                    ...formData,
+                    stock: Number(e.target.value),
+                  });
+                }}
               />
             </div>
 
@@ -239,7 +249,9 @@ const ProductPage = () => {
               <button
                 type="submit"
                 className="btn btn-primary"
-                onClick={() => navigate("/")}
+                onClick={() => {
+                  return navigate("/");
+                }}
               >
                 {loading ? (
                   <span className="loading loading-spinner loading-sm" />

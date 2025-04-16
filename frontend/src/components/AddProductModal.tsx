@@ -6,7 +6,7 @@ import axios from "axios";
 const AddProductModal = () => {
   const { formData, setFormData, addProduct, loading } = useProductStore();
   const [file, setFile] = useState<File | null>(null);
-  file;
+  
   const [message, setMessage] = useState<string>("");
   const [uploading, setUploading] = useState<boolean>(false);
 
@@ -46,7 +46,7 @@ const AddProductModal = () => {
       setFile(null);
       (document.querySelector("input[type='file']") as HTMLInputElement).value =
         "";
-    } catch (error) {
+    } catch  {
       setMessage("Upload Failed");
     } finally {
       setUploading(false);
@@ -65,9 +65,9 @@ const AddProductModal = () => {
           type="button"
           className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
           onClick={() =>
-            (
+            {return (
               document.getElementById("addProductModal") as HTMLDialogElement
-            )?.close()
+            )?.close()}
           }
         >
           ✕
@@ -87,7 +87,7 @@ const AddProductModal = () => {
               className="input input-bordered w-full my-1"
               value={formData.name}
               onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
+                {return setFormData({ ...formData, name: e.target.value })}
               }
             />
           </div>
@@ -104,7 +104,7 @@ const AddProductModal = () => {
               className="input input-bordered w-full my-1"
               value={formData.description}
               onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
+                {return setFormData({ ...formData, description: e.target.value })}
               }
             />
           </div>
@@ -123,7 +123,7 @@ const AddProductModal = () => {
               className="input input-bordered w-full my-1"
               value={formData.price ?? ""}
               onChange={(e) =>
-                setFormData({ ...formData, price: Number(e.target.value) })
+                {return setFormData({ ...formData, price: Number(e.target.value) })}
               }
             />
           </div>
@@ -142,7 +142,7 @@ const AddProductModal = () => {
               className="input input-bordered w-full my-1"
               value={formData.stock ?? ""}
               onChange={(e) =>
-                setFormData({ ...formData, stock: Number(e.target.value) })
+                {return setFormData({ ...formData, stock: Number(e.target.value) })}
               }
             />
           </div>
@@ -191,11 +191,11 @@ const AddProductModal = () => {
               type="button"
               className="btn btn-error"
               onClick={() =>
-                (
+                {return (
                   document.getElementById(
                     "addProductModal"
                   ) as HTMLDialogElement
-                )?.close()
+                )?.close()}
               }
             >
               Cancel

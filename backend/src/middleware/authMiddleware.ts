@@ -18,7 +18,6 @@ export const protectRoute = (
   res: Response,
   next: NextFunction
 ): void => {
-
   const token = req.cookies?.token;
 
   if (!token) {
@@ -42,7 +41,7 @@ export const protectRoute = (
 
     req.user = decoded;
     next();
-  } catch (error) {
+  } catch {
     res.status(401).json({
       status: 401,
       success: false,

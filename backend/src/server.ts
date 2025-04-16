@@ -9,7 +9,7 @@ import { productDB } from "./config/productDB";
 import { userDB } from "./config/userDB";
 import cors from "cors";
 import { protectRoute } from "./middleware/authMiddleware";
-import path = require("path");
+import path from "path";
 
 dotenv.config();
 
@@ -34,7 +34,9 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/products", protectRoute, productRoutes);
 
 productDB()
-  .then(() => userDB())
+  .then(() => {
+    userDB();
+  })
   .then(() => {
     app.listen(PORT);
   });

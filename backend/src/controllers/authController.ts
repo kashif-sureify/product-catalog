@@ -29,7 +29,7 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
     });
 
     res.status(201).json({ success: true, user: result?.user });
-  } catch (error) {
+  } catch {
     res.status(500).json({ success: false, message: "Internal Server Error" });
     return;
   }
@@ -63,7 +63,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     });
 
     res.status(200).json({ status: 200, success: true, user: result?.user });
-  } catch (error) {
+  } catch  {
     res
       .status(500)
       .json({ status: 500, success: true, message: "Internal Server Error" });
@@ -80,7 +80,7 @@ export const logout = async (req: Request, res: Response): Promise<void> => {
 export const authCheck = async (req: Request, res: Response): Promise<void> => {
   try {
     res.status(200).json({ status: 200, success: true, user: req.user });
-  } catch (error) {
+  } catch  {
     res
       .status(500)
       .json({ status: 500, success: false, message: "Internal Server Error" });

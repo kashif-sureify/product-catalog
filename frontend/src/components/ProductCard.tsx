@@ -2,6 +2,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { EditIcon, Trash2Icon } from "lucide-react";
 import { Product } from "../types/product";
 import { useProductStore } from "../store/useProductStore";
+import React from "react";
+
 
 type ProductCardProps = {
   product: Product;

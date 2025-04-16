@@ -36,7 +36,7 @@ const SignupPage = () => {
                 placeholder="username"
                 id="username"
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => {return setUsername(e.target.value)}}
               />
             </div>
 
@@ -53,7 +53,7 @@ const SignupPage = () => {
                 placeholder="you@example.com"
                 id="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {return setEmail(e.target.value)}}
               />
             </div>
 
@@ -70,7 +70,7 @@ const SignupPage = () => {
                 placeholder="************"
                 id="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {return setPassword(e.target.value)}}
               />
             </div>
             <button className="w-full py-2 text-white bg-red-600 font-semibold rounded-md hover:bg-red-700">

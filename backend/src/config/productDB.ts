@@ -16,7 +16,7 @@ export const productDB = async () => {
     const connection = await pool.getConnection();
     await connection.execute(productTable);
     connection.release();
-  } catch (error) {
+  } catch {
     throw new Error("Failed to initialize product table");
   }
 };

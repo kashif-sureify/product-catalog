@@ -15,7 +15,7 @@ export const userDB = async () => {
     const connection = await pool.getConnection();
     await connection.execute(userTable);
     connection.release();
-  } catch (error) {
+  } catch {
     throw new Error("Failed to initialize user table");
   }
 };

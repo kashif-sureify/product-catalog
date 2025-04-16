@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import { useProductStore } from "../store/useProductStore";
 import AddProductModal from "../components/AddProductModal";
@@ -71,9 +71,9 @@ const HomePage = () => {
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+            {products.map((product) => {
+              return <ProductCard key={product.id} product={product} />;
+            })}
           </div>
 
           {totalPages > 1 && (
@@ -82,7 +82,9 @@ const HomePage = () => {
                 currentPage={page}
                 totalPages={totalPages}
                 totalProducts={totalProducts}
-                onPageChange={(newPage) => setPage(newPage)}
+                onPageChange={(newPage) => {
+                  return setPage(newPage);
+                }}
               />
             </div>
           )}
