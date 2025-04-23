@@ -66,7 +66,7 @@ const HomePage = () => {
 
       {loading ? (
         <div className="flex justify-center items-center h-full">
-          <Loader className="animate-ping text-red-600 size-10" />
+          <Loader role="img" className="animate-ping text-red-600 size-10" />
         </div>
       ) : (
         <>
