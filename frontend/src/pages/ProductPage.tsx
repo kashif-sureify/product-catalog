@@ -29,7 +29,7 @@ const ProductPage = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <Loader className="animate-ping text-red-600 size-10" />
+        <Loader role="img" className="animate-ping text-red-600 size-10" />
       </div>
     );
   }
@@ -198,13 +198,14 @@ const ProductPage = () => {
             </div>
 
             <div className="form-control">
-              <label className="label">
+              <label className="label" htmlFor="product-image">
                 <span className="label-text text-base font-medium my-1">
                   Change Image
                 </span>
               </label>
               <div className="flex items-center gap-4">
                 <input
+                  id="product-image"
                   type="file"
                   className="file-input file-input-bordered w-full"
                   onChange={handleFileChange}
@@ -254,7 +255,7 @@ const ProductPage = () => {
                 }}
               >
                 {loading ? (
-                  <span className="loading loading-spinner loading-sm" />
+                  <span role="img" className="loading loading-spinner loading-sm" />
                 ) : (
                   <>
                     <SaveIcon className="size-4 mr-2" />

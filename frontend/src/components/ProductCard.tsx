@@ -49,6 +49,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
           </Link>
           <button
             className="btn btn-sm btn-error btn-outline"
+            aria-label="delete-product"
             onClick={handleDelete}
           >
             <Trash2Icon className="size-4" />

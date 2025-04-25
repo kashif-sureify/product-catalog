@@ -80,7 +80,7 @@ const SignupPage = () => {
 
           <div className="text-center text-gray-400">
             Already a member?{" "}
-            <Link to={"/login"} className="text-red-500 hover:underline">
+            <Link to={"/login"} aria-label="login" className="text-red-500 hover:underline">
               Login
             </Link>
           </div>

@@ -1,20 +1,10 @@
 import HomePage from "../../src/pages/HomePage";
-import { vi } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as useProductStoreModule from "../../src/store/useProductStore";
 import * as useAuthStoreModule from "../../src/store/useAuthStore";
 import React from "react";
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number | null | string;
-  stock: number | null | string;
-  image: string;
-  created_at: Date;
-}
+import { Product } from "../../src/types/product";
 
 interface PaginationProps {
   currentPage: number;

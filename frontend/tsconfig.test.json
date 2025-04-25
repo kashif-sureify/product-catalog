@@ -1,0 +1,15 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+      "types": ["vitest/globals", "vite/client"],
+      "module": "ESNext",
+      "target": "ESNext",
+      "moduleResolution": "Node",
+      "jsx": "react-jsx", // or "preserve" depending on setup
+      "noEmit": true,
+      "allowJs": true,
+      "esModuleInterop": true
+    },
+    "include": ["src", "tests", "vitest.config.ts"]
+  }
+  

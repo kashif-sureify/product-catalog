@@ -64,9 +64,9 @@ const LoginPage = () => {
           </form>
 
           <div className="text-center text-gray-400">
-            Don`&apos;` t have an account ?{" "}
-            <Link to={"/signup"} className="text-red-500 hover:underline">
-              Sign up
+            Don&apos;t have an account ?{" "}
+            <Link to={"/signup"} aria-label="signup" className="text-red-500 hover:underline">
+              Signup
             </Link>
           </div>
         </div>
