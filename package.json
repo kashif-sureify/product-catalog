@@ -5,7 +5,6 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:ui": "vitest --ui",
     "dev": "nodemon backend/src/server.ts",
     "lint": "eslint backend/src --config $(pwd)/backend/eslint.config.mjs"
   },

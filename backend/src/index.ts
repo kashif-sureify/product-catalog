@@ -6,7 +6,7 @@ import authRoutes from "./routes/authRoutes";
 import uploadRoutes from "./routes/uploadRoutes";
 
 import cors from "cors";
-import { protectRoute } from "./middleware/authMiddleware";
+import { protectRoute } from "./middlewares/authMiddleware";
 import path from "path";
 
 dotenv.config();

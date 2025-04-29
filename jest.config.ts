@@ -6,7 +6,7 @@ const config: Config = {
   testEnvironment: "node",
   roots: ["backend/src"],
   moduleFileExtensions: ["ts", "js", "json"],
-  testMatch: ["**/__tests__/**/*.test.ts"],
+  testMatch: ["**/tests/**/*.test.ts"],
 };
 
 export default config;

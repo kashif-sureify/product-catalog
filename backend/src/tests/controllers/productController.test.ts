@@ -3,7 +3,7 @@ import app from "../..";
 import request from "supertest";
 
 jest.mock("../../services/productService");
-jest.mock("../../middleware/authMiddleware", () => {
+jest.mock("../../middlewares/authMiddleware", () => {
   return {
     protectRoute: jest.fn((req, res, next) => {
       return next();

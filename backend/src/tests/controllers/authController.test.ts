@@ -4,7 +4,7 @@ import request from "supertest";
 import { Request, Response, NextFunction } from "express";
 
 jest.mock("../../services/authService");
-jest.mock("../../middleware/authMiddleware", () => {
+jest.mock("../../middlewares/authMiddleware", () => {
   return {
     protectRoute: (
       req: Request & { user?: { id: number; username: string } },
