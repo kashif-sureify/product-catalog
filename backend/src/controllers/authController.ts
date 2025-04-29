@@ -8,9 +8,10 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
   const { username, email, password } = req.body;
 
   if (!username || !email || !password) {
-    res
-      .status(400)
-      .json({ success: false, message: "All fields are required" });
+    res.status(400).json({
+      success: false,
+      message: "All fields are required",
+    });
     return;
   }
 
@@ -62,8 +63,12 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       secure: false,
     });
 
-    res.status(200).json({ status: 200, success: true, user: result?.user });
-  } catch  {
+    res.status(200).json({
+      status: 200,
+      success: true,
+      user: result?.user,
+    });
+  } catch {
     res
       .status(500)
       .json({ status: 500, success: true, message: "Internal Server Error" });
@@ -80,7 +85,7 @@ export const logout = async (req: Request, res: Response): Promise<void> => {
 export const authCheck = async (req: Request, res: Response): Promise<void> => {
   try {
     res.status(200).json({ status: 200, success: true, user: req.user });
-  } catch  {
+  } catch {
     res
       .status(500)
       .json({ status: 500, success: false, message: "Internal Server Error" });
