@@ -2,6 +2,6 @@
     "watch": ["backend/src"],
     "ext": "ts",
     "ignore": ["backend/dist"],
-    "exec": "ts-node backend/src/server.ts"
+    "exec": "ts-node ./backend/src/server.ts"
   }
   

@@ -1,19 +1,19 @@
 import { ChevronsLeftIcon, ChevronsRightIcon } from "lucide-react";
-import React from "react";
+import { useProductStore } from "../store/useProductStore";
 
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
   totalProducts: number | null;
-  onPageChange: (page: number) => void;
 }
 
 export default function Pagination({
   currentPage,
   totalPages,
   totalProducts,
-  onPageChange,
 }: PaginationProps) {
+  const { setPage } = useProductStore();
+
   const pages = Array.from({ length: totalPages }, (_, i) => {
     return i + 1;
   });
@@ -36,7 +36,7 @@ export default function Pagination({
           >
             <button
               onClick={() => {
-                return onPageChange(currentPage - 1);
+                return setPage(currentPage - 1);
               }}
               disabled={currentPage === 1}
               className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:opacity-50"
@@ -50,7 +50,7 @@ export default function Pagination({
                 <button
                   key={page}
                   onClick={() => {
-                    return onPageChange(page);
+                    return setPage(page);
                   }}
                   className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${
                     page === currentPage
@@ -65,7 +65,7 @@ export default function Pagination({
 
             <button
               onClick={() => {
-                return onPageChange(currentPage + 1);
+                return setPage(currentPage + 1);
               }}
               disabled={currentPage === totalPages}
               className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:opacity-50"
@@ -80,7 +80,7 @@ export default function Pagination({
       <div className="flex flex-1 justify-between sm:hidden">
         <button
           onClick={() => {
-            return onPageChange(currentPage - 1);
+            return setPage(currentPage - 1);
           }}
           disabled={currentPage === 1}
           className="btn btn-outline btn-sm"
@@ -89,7 +89,7 @@ export default function Pagination({
         </button>
         <button
           onClick={() => {
-            return onPageChange(currentPage + 1);
+            return setPage(currentPage + 1);
           }}
           disabled={currentPage === totalPages}
           className="btn btn-outline btn-sm"

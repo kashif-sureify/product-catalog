@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ProductCard from "../components/ProductCard";
 import { useProductStore } from "../store/useProductStore";
 import AddProductModal from "../components/AddProductModal";
@@ -13,12 +13,12 @@ const HomePage = () => {
     error,
     totalPages,
     totalProducts,
+    page,
     resetForm,
     fetchProducts,
   } = useProductStore();
   const { logout } = useAuthStore();
 
-  const [page, setPage] = useState<number>(1);
   const limit: number = 6;
 
   useEffect(() => {
@@ -82,9 +82,6 @@ const HomePage = () => {
                 currentPage={page}
                 totalPages={totalPages}
                 totalProducts={totalProducts}
-                onPageChange={(newPage) => {
-                  return setPage(newPage);
-                }}
               />
             </div>
           )}
@@ -95,4 +92,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-

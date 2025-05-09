@@ -1,6 +1,6 @@
 import { PlusCircleIcon } from "lucide-react";
 import { useProductStore } from "../store/useProductStore";
-import React, { ChangeEvent, useState } from "react";
+import  { ChangeEvent, useState } from "react";
 import axios from "axios";
 
 const AddProductModal = () => {

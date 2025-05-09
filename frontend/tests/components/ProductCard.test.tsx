@@ -7,7 +7,7 @@ import ProductCard from "../../src/components/ProductCard";
 import userEvent from "@testing-library/user-event";
 
 interface useProductStoreReturn {
-  deleteProduct: (id: number) => Promise<void>;
+  deleteProduct: () => Promise<void>;
 }
 const mockNavigate = vi.fn();
 
@@ -18,7 +18,7 @@ const mockProduct: Product = {
   price: 99.99,
   stock: 10,
   image: "test-image.jpg",
-  created_at: undefined,
+  created_at: new Date(),
 };
 
 const renderWithRouter = (ui: React.ReactElement, initialEnteries = ["/"]) => {

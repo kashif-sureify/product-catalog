@@ -1,12 +1,13 @@
 import { create } from "zustand";
 import { Product } from "../types/product";
 import axios from "axios";
-import React from "react";
 import toast from "react-hot-toast";
 
 interface ProductStore {
   products: Product[];
   page: number;
+  setPage: (page: number) => void;
+
   totalPages: number;
   totalProducts: number | null;
   loading: boolean;
@@ -37,6 +38,9 @@ export const useProductStore = create<ProductStore>((set, get) => {
       price: null,
       stock: null,
       image: "",
+    },
+    setPage: (page) => {
+      return set({ page });
     },
     setFormData: (formData) => {
       return set({ formData });

@@ -1,4 +1,3 @@
-import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import ProductPage from "./pages/ProductPage";
@@ -11,8 +10,6 @@ import { Toaster } from "react-hot-toast";
 import PageNotFound from "./pages/PageNotFound";
 function App() {
   const { user, authCheck, isCheckingAuth } = useAuthStore();
-
-  
 
   useEffect(() => {
     authCheck();

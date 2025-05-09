@@ -5,6 +5,7 @@ import { defineConfig } from "eslint/config";
 
 export default defineConfig([
   {
+    ignores: ["**/node_modules/**", "**/dist/**"],
     files: ["**/*.{js,mjs,cjs,ts}"],
     plugins: { js },
     extends: ["js/recommended"],
@@ -18,6 +19,7 @@ export default defineConfig([
     rules: {
       "no-unused-vars": "warn",
       "arrow-body-style": ["error", "always"],
+      semi: ["error", "always"],
     },
   },
 ]);

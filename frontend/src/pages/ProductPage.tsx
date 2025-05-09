@@ -1,7 +1,7 @@
 import { Loader, SaveIcon, Trash2Icon } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useProductStore } from "../store/useProductStore";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import axios from "axios";
 
 const ProductPage = () => {
@@ -255,7 +255,10 @@ const ProductPage = () => {
                 }}
               >
                 {loading ? (
-                  <span role="img" className="loading loading-spinner loading-sm" />
+                  <span
+                    role="img"
+                    className="loading loading-spinner loading-sm"
+                  />
                 ) : (
                   <>
                     <SaveIcon className="size-4 mr-2" />

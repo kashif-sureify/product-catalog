@@ -1,15 +1,20 @@
 {
-    "extends": "./tsconfig.json",
-    "compilerOptions": {
-      "types": ["vitest/globals", "vite/client"],
-      "module": "ESNext",
-      "target": "ESNext",
-      "moduleResolution": "Node",
-      "jsx": "react-jsx", // or "preserve" depending on setup
-      "noEmit": true,
-      "allowJs": true,
-      "esModuleInterop": true
-    },
-    "include": ["src", "tests", "vitest.config.ts"]
-  }
-  
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["vitest"],
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    // "noUncheckedSideEffectImports": true
+  },
+  "include": ["src"]
+}

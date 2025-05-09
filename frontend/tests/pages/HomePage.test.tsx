@@ -1,5 +1,5 @@
 import HomePage from "../../src/pages/HomePage";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as useProductStoreModule from "../../src/store/useProductStore";
 import * as useAuthStoreModule from "../../src/store/useAuthStore";
@@ -10,7 +10,6 @@ interface PaginationProps {
   currentPage: number;
   totalPages: number;
   totalProducts: number | null;
-  onPageChange: (page: number) => void;
 }
 
 vi.mock("../../src/components/ProductCard", () => {
@@ -26,31 +25,16 @@ vi.mock("../../src/components/Pagination", () => {
     currentPage,
     totalPages,
     totalProducts,
-    onPageChange,
   }: PaginationProps) => {
     return (
       <div>
         <p data-testid="page-info">
           Showing {currentPage} to {totalPages} of {totalProducts} results
         </p>
-
-        <button
-          data-testid="prev-page"
-          onClick={() => {
-            return onPageChange(currentPage - 1);
-          }}
-          disabled={currentPage === 1}
-        >
+        <button data-testid="prev-page" disabled={currentPage === 1}>
           Previous
         </button>
-
-        <button
-          data-testid="next-page"
-          onClick={() => {
-            return onPageChange(currentPage + 1);
-          }}
-          disabled={currentPage === totalPages}
-        >
+        <button data-testid="next-page" disabled={currentPage === totalPages}>
           Next
         </button>
       </div>
@@ -73,10 +57,7 @@ describe("HomePage Component", () => {
   const mockLogout = vi.fn();
 
   beforeEach(() => {
-    // Mock the showModal method on all dialog elements
     HTMLDialogElement.prototype.showModal = vi.fn();
-
-    // You can also mock close() if needed
     HTMLDialogElement.prototype.close = vi.fn();
 
     vi.spyOn(useProductStoreModule, "useProductStore").mockReturnValue({
@@ -111,103 +92,84 @@ describe("HomePage Component", () => {
     vi.clearAllMocks();
   });
 
-  test("render HomePage with no products and show empty state", () => {
+  test("renders empty state when no products are available", () => {
     render(<HomePage />);
-    const head = screen.getByText("No products found");
-    const para = screen.getByText(
-      "Get started by adding your first product to the inventory"
-    );
-
-    expect(head).toBeInTheDocument();
-    expect(para).toBeInTheDocument();
+    expect(screen.getByText("No products found")).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Get started by adding your first product to the inventory"
+      )
+    ).toBeInTheDocument();
   });
 
-  test("call the fetchProduct on page load", () => {
+  test("calls fetchProducts on mount", () => {
     render(<HomePage />);
     expect(mockFetchProducts).toHaveBeenCalledWith(1, 6);
   });
 
-  test("opens add product modal when button is clicked", async () => {
-    render(<HomePage />);
+  test("opens Add Product modal and resets form", async () => {
     const showModalSpy = vi.spyOn(HTMLDialogElement.prototype, "showModal");
-
-    const addProductBtn = screen.getAllByText("Add Product");
-
-    await userEvent.click(addProductBtn[0]);
-
+    render(<HomePage />);
+    const btn = screen.getByText("Add Product");
+    await userEvent.click(btn);
     expect(showModalSpy).toHaveBeenCalled();
     expect(mockResetForm).toHaveBeenCalled();
   });
 
-  test("call the logout when logout button is clicked", async () => {
+  test("calls logout on logout button click", async () => {
     render(<HomePage />);
     await userEvent.click(screen.getByText("Logout"));
     expect(mockLogout).toHaveBeenCalled();
   });
 
-  it("render product when available", () => {
+  test("displays product cards if products exist", () => {
     vi.spyOn(useProductStoreModule, "useProductStore").mockReturnValue({
       ...useProductStoreModule.useProductStore(),
       products: [{ id: 1, name: "Product A" }],
+      page: 1,
+      totalPages: 1,
+      totalProducts: 1,
+      loading: false,
+      error: null,
     });
 
     render(<HomePage />);
-
-    const productDiv = screen.getByTestId("product");
-
-    expect(productDiv).toHaveTextContent("Product A");
+    expect(screen.getByTestId("product")).toHaveTextContent("Product A");
   });
 
-  it("render loading spinner when loading is true", () => {
+  test("displays loading spinner when loading is true", () => {
     vi.spyOn(useProductStoreModule, "useProductStore").mockReturnValue({
       ...useProductStoreModule.useProductStore(),
       loading: true,
     });
 
     render(<HomePage />);
-
-    const loader = screen.getByRole("img", { hidden: true });
-
-    expect(loader).toBeInTheDocument();
+    expect(screen.getByRole("img", { hidden: true })).toBeInTheDocument();
   });
 
-  it("render loading spinner when loading is true", () => {
+  test("displays error message when error exists", () => {
     vi.spyOn(useProductStoreModule, "useProductStore").mockReturnValue({
       ...useProductStoreModule.useProductStore(),
       error: "Something went wrong",
     });
 
     render(<HomePage />);
-
-    const error = screen.getByText("Something went wrong");
-
-    expect(error).toBeInTheDocument();
+    expect(screen.getByText("Something went wrong")).toBeInTheDocument();
   });
 
-  it("changes when pagination button is clicked", async () => {
+  test("renders pagination info when totalPages > 1", () => {
     vi.spyOn(useProductStoreModule, "useProductStore").mockReturnValue({
       ...useProductStoreModule.useProductStore(),
       products: [{ id: 1, name: "Product A" }],
-      currentPage: 1,
+      page: 2,
       totalPages: 3,
-      totalProducts: 15,
+      totalProducts: 18,
+      loading: false,
     });
 
     render(<HomePage />);
-
-    // const pageInfo = screen.getByTestId("page-info");
-    // expect(pageInfo).toHaveTextContent("Showing 2 to 3 of 15 results");
     expect(screen.getByTestId("page-info")).toHaveTextContent(
-      "Showing 1 to 3 of 15 results"
+      "Showing 2 to 3 of 18 results"
     );
-
-    const prev = screen.getByTestId("prev-page");
-    const next = screen.getByTestId("next-page");
-
-    await userEvent.click(prev);
-    await userEvent.click(next);
-    await waitFor(() => {
-      expect(mockFetchProducts).toHaveBeenCalledWith(1, 6);
-    });
   });
 });
