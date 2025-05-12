@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { vi } from "vitest";
 import Pagination from "../../src/components/Pagination";
 import * as useProductStoreModule from "../../src/store/useProductStore";
 
@@ -19,14 +20,14 @@ describe("Pagination Component", () => {
   const setup = (
     currentPage: number,
     totalPages: number,
-    totalProducts: number | null
+    totalProducts: number | null,
   ) => {
     render(
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
         totalProducts={totalProducts}
-      />
+      />,
     );
   };
 

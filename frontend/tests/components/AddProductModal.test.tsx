@@ -1,9 +1,9 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import * as useProductStoreModule from "../../src/store/useProductStore";
-import AddProductModal from "../../src/components/AddProductModal";
-import React from "react";
 import userEvent from "@testing-library/user-event";
 import axios from "axios";
+import { vi } from "vitest";
+import AddProductModal from "../../src/components/AddProductModal";
+import * as useProductStoreModule from "../../src/store/useProductStore";
 
 const mockedAxios = axios as unknown as {
   post: ReturnType<typeof vi.fn>;
@@ -44,7 +44,7 @@ describe("AddProductModal Component", () => {
 
     // Simulate modal open
     const modal = document.getElementById(
-      "addProductModal"
+      "addProductModal",
     ) as HTMLDialogElement;
     modal.setAttribute("open", "");
   });
@@ -92,7 +92,7 @@ describe("AddProductModal Component", () => {
 
     await waitFor(() => {
       expect(mockSetFormData).toHaveBeenCalledWith(
-        expect.objectContaining({ image: "image.jpg" })
+        expect.objectContaining({ image: "image.jpg" }),
       );
     });
 
@@ -119,11 +119,11 @@ describe("AddProductModal Component", () => {
     // Fill out form fields
     await userEvent.type(
       screen.getByLabelText(/product name/i),
-      "Test Product"
+      "Test Product",
     );
     await userEvent.type(
       screen.getByLabelText(/product description/i),
-      "Nice product"
+      "Nice product",
     );
     await userEvent.type(screen.getByLabelText(/price/i), "19.99");
     await userEvent.type(screen.getByLabelText(/stock/i), "10");
@@ -132,7 +132,6 @@ describe("AddProductModal Component", () => {
     const submitButton = screen.getByRole("button", { name: /add product/i });
     await userEvent.click(submitButton);
 
-   
     expect(mockAddProduct).toHaveBeenCalledTimes(0);
   });
 
@@ -143,4 +142,3 @@ describe("AddProductModal Component", () => {
     expect(HTMLDialogElement.prototype.close).toHaveBeenCalled();
   });
 });
-

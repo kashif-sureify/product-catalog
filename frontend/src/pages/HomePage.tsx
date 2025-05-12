@@ -1,12 +1,13 @@
 import { useEffect } from "react";
+import { Loader, PackageIcon } from "lucide-react";
 import ProductCard from "../components/ProductCard";
 import { useProductStore } from "../store/useProductStore";
 import AddProductModal from "../components/AddProductModal";
 import { useAuthStore } from "../store/useAuthStore";
-import { Loader, PackageIcon } from "lucide-react";
 import Pagination from "../components/Pagination";
+import type { Product } from "../types/product";
 
-const HomePage = () => {
+function HomePage() {
   const {
     products,
     loading,
@@ -23,11 +24,11 @@ const HomePage = () => {
 
   useEffect(() => {
     fetchProducts(page, limit);
-  }, [page, limit]);
+  }, [page, limit, fetchProducts]);
 
   const openAddProductModal = () => {
     const modal = document.getElementById(
-      "addProductModal"
+      "addProductModal",
     ) as HTMLDialogElement;
     if (modal) {
       modal.showModal();
@@ -38,11 +39,15 @@ const HomePage = () => {
   return (
     <main className="mx-auto px-4 py-8 max-w-6xl">
       <div className="flex justify-between items-center mb-8">
-        <button className="btn btn-primary" onClick={openAddProductModal}>
+        <button
+          className="btn btn-primary"
+          type="button"
+          onClick={openAddProductModal}
+        >
           Add Product
         </button>
 
-        <button className="btn btn-error" onClick={logout}>
+        <button type="button" className="btn btn-error" onClick={logout}>
           Logout
         </button>
       </div>
@@ -71,9 +76,9 @@ const HomePage = () => {
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.map((product) => {
-              return <ProductCard key={product.id} product={product} />;
-            })}
+            {products.map((product: Product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
           </div>
 
           {totalPages > 1 && (
@@ -89,6 +94,6 @@ const HomePage = () => {
       )}
     </main>
   );
-};
+}
 
 export default HomePage;

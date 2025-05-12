@@ -1,9 +1,9 @@
-import HomePage from "../../src/pages/HomePage";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { vi } from "vitest";
 import * as useProductStoreModule from "../../src/store/useProductStore";
 import * as useAuthStoreModule from "../../src/store/useAuthStore";
-import React from "react";
+import HomePage from "../../src/pages/HomePage";
 import { Product } from "../../src/types/product";
 
 interface PaginationProps {
@@ -21,25 +21,33 @@ vi.mock("../../src/components/ProductCard", () => {
 });
 
 vi.mock("../../src/components/Pagination", () => {
-  const Pagination = ({
+  function Pagination({
     currentPage,
     totalPages,
     totalProducts,
-  }: PaginationProps) => {
+  }: PaginationProps) {
     return (
       <div>
         <p data-testid="page-info">
           Showing {currentPage} to {totalPages} of {totalProducts} results
         </p>
-        <button data-testid="prev-page" disabled={currentPage === 1}>
+        <button
+          type="button"
+          data-testid="prev-page"
+          disabled={currentPage === 1}
+        >
           Previous
         </button>
-        <button data-testid="next-page" disabled={currentPage === totalPages}>
+        <button
+          type="button"
+          data-testid="next-page"
+          disabled={currentPage === totalPages}
+        >
           Next
         </button>
       </div>
     );
-  };
+  }
   return { default: Pagination };
 });
 
@@ -97,8 +105,8 @@ describe("HomePage Component", () => {
     expect(screen.getByText("No products found")).toBeInTheDocument();
     expect(
       screen.getByText(
-        "Get started by adding your first product to the inventory"
-      )
+        "Get started by adding your first product to the inventory",
+      ),
     ).toBeInTheDocument();
   });
 
@@ -169,7 +177,7 @@ describe("HomePage Component", () => {
 
     render(<HomePage />);
     expect(screen.getByTestId("page-info")).toHaveTextContent(
-      "Showing 2 to 3 of 18 results"
+      "Showing 2 to 3 of 18 results",
     );
   });
 });
