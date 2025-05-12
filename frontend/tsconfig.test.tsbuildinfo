@@ -1,0 +1,1 @@
+{"root":["./tests/setupTests.ts","./tests/components/AddProductModal.test.tsx","./tests/components/Pagination.test.tsx","./tests/components/ProductCard.test.tsx","./tests/pages/HomePage.test.tsx","./tests/pages/LoginPage.test.tsx","./tests/pages/PageNotFound.test.tsx","./tests/pages/ProductPage.test.tsx","./tests/pages/SignupPage.test.tsx"],"version":"5.8.3"}

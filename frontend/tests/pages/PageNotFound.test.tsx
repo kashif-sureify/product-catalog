@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import React from "react";
+import { vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import PageNotFound from "../../src/pages/PageNotFound";
 
@@ -11,7 +11,7 @@ describe("PageNotFound", () => {
     render(
       <MemoryRouter initialEntries={["/"]}>
         <PageNotFound />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
   });
 
@@ -19,7 +19,7 @@ describe("PageNotFound", () => {
     const text404 = screen.getByText(/404/i);
     const header = screen.getByText(/page not found/i);
     const para = screen.getByText(
-      /sorry, we couldn't find the page you're looking for/i
+      /sorry, we couldn't find the page you're looking for/i,
     );
 
     const link = screen.getByRole("link", { name: /home/i });

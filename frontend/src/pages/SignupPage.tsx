@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 
-const SignupPage = () => {
+function SignupPage() {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -29,15 +29,15 @@ const SignupPage = () => {
                 className="text-sm font-medium text-gray-300 block"
               >
                 Username
+                <input
+                  type="text"
+                  className="w-full px-3 py-2 mt-1 border-gray-700 rounded-md bg-tr text-white focus:outline-none focus:ring"
+                  placeholder="username"
+                  id="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
               </label>
-              <input
-                type="text"
-                className="w-full px-3 py-2 mt-1 border-gray-700 rounded-md bg-tr text-white focus:outline-none focus:ring"
-                placeholder="username"
-                id="username"
-                value={username}
-                onChange={(e) => {return setUsername(e.target.value)}}
-              />
             </div>
 
             <div>
@@ -46,15 +46,15 @@ const SignupPage = () => {
                 className="text-sm font-medium text-gray-300 block"
               >
                 Email
+                <input
+                  type="email"
+                  className="w-full px-3 py-2 mt-1 border-gray-700 rounded-md bg-tr text-white focus:outline-none focus:ring"
+                  placeholder="you@example.com"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </label>
-              <input
-                type="email"
-                className="w-full px-3 py-2 mt-1 border-gray-700 rounded-md bg-tr text-white focus:outline-none focus:ring"
-                placeholder="you@example.com"
-                id="email"
-                value={email}
-                onChange={(e) => {return setEmail(e.target.value)}}
-              />
             </div>
 
             <div>
@@ -63,24 +63,31 @@ const SignupPage = () => {
                 className="text-sm font-medium text-gray-300 block"
               >
                 Password
+                <input
+                  type="text"
+                  className="w-full px-3 py-2 mt-1 border-gray-700 rounded-md bg-tr text-white focus:outline-none focus:ring"
+                  placeholder="************"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </label>
-              <input
-                type="text"
-                className="w-full px-3 py-2 mt-1 border-gray-700 rounded-md bg-tr text-white focus:outline-none focus:ring"
-                placeholder="************"
-                id="password"
-                value={password}
-                onChange={(e) => {return setPassword(e.target.value)}}
-              />
             </div>
-            <button className="w-full py-2 text-white bg-red-600 font-semibold rounded-md hover:bg-red-700">
+            <button
+              type="submit"
+              className="w-full py-2 text-white bg-red-600 font-semibold rounded-md hover:bg-red-700"
+            >
               Sign Up
             </button>
           </form>
 
           <div className="text-center text-gray-400">
             Already a member?{" "}
-            <Link to={"/login"} aria-label="login" className="text-red-500 hover:underline">
+            <Link
+              to="/login"
+              aria-label="login"
+              className="text-red-500 hover:underline"
+            >
               Login
             </Link>
           </div>
@@ -88,6 +95,6 @@ const SignupPage = () => {
       </div>
     </div>
   );
-};
+}
 
 export default SignupPage;

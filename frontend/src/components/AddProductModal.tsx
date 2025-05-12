@@ -1,9 +1,9 @@
 import { PlusCircleIcon } from "lucide-react";
-import { useProductStore } from "../store/useProductStore";
-import  { ChangeEvent, useState } from "react";
+import { type ChangeEvent, useState } from "react";
 import axios from "axios";
+import { useProductStore } from "../store/useProductStore";
 
-const AddProductModal = () => {
+function AddProductModal() {
   const { formData, setFormData, addProduct, loading } = useProductStore();
   const [file, setFile] = useState<File | null>(null);
 
@@ -63,11 +63,11 @@ const AddProductModal = () => {
         <button
           type="button"
           className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-          onClick={() => {
-            return (
+          onClick={() =>
+            (
               document.getElementById("addProductModal") as HTMLDialogElement
-            )?.close();
-          }}
+            )?.close()
+          }
         >
           ✕
         </button>
@@ -79,17 +79,17 @@ const AddProductModal = () => {
               <span className="label-text text-base font-medium my-1">
                 Product Name
               </span>
+              <input
+                id="product-name"
+                type="text"
+                placeholder="Enter product name"
+                className="input input-bordered w-full my-1"
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
+              />
             </label>
-            <input
-              id="product-name"
-              type="text"
-              placeholder="Enter product name"
-              className="input input-bordered w-full my-1"
-              value={formData.name}
-              onChange={(e) => {
-                return setFormData({ ...formData, name: e.target.value });
-              }}
-            />
           </div>
 
           <div className="form-control">
@@ -97,20 +97,20 @@ const AddProductModal = () => {
               <span className="label-text text-base font-medium my-1">
                 Product Description
               </span>
+              <input
+                id="product-description"
+                type="text"
+                placeholder="Enter product description"
+                className="input input-bordered w-full my-1"
+                value={formData.description}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    description: e.target.value,
+                  })
+                }
+              />
             </label>
-            <input
-              id="product-description"
-              type="text"
-              placeholder="Enter product description"
-              className="input input-bordered w-full my-1"
-              value={formData.description}
-              onChange={(e) => {
-                return setFormData({
-                  ...formData,
-                  description: e.target.value,
-                });
-              }}
-            />
           </div>
 
           <div className="form-control">
@@ -118,22 +118,22 @@ const AddProductModal = () => {
               <span className="label-text text-base font-medium my-1">
                 Price
               </span>
+              <input
+                id="product-price"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="$ 0.00"
+                className="input input-bordered w-full my-1"
+                value={formData.price ?? ""}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    price: Number(e.target.value),
+                  })
+                }
+              />
             </label>
-            <input
-              id="product-price"
-              type="number"
-              min="0"
-              step="0.01"
-              placeholder="$ 0.00"
-              className="input input-bordered w-full my-1"
-              value={formData.price ?? ""}
-              onChange={(e) => {
-                return setFormData({
-                  ...formData,
-                  price: Number(e.target.value),
-                });
-              }}
-            />
           </div>
 
           <div className="form-control">
@@ -141,22 +141,22 @@ const AddProductModal = () => {
               <span className="label-text text-base font-medium my-1">
                 Stock
               </span>
+              <input
+                id="product-stock"
+                type="number"
+                min="0"
+                step="1"
+                placeholder="0"
+                className="input input-bordered w-full my-1"
+                value={formData.stock ?? ""}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    stock: Number(e.target.value),
+                  })
+                }
+              />
             </label>
-            <input
-              id="product-stock"
-              type="number"
-              min="0"
-              step="1"
-              placeholder="0"
-              className="input input-bordered w-full my-1"
-              value={formData.stock ?? ""}
-              onChange={(e) => {
-                return setFormData({
-                  ...formData,
-                  stock: Number(e.target.value),
-                });
-              }}
-            />
           </div>
 
           <div className="form-control">
@@ -164,25 +164,26 @@ const AddProductModal = () => {
               <span className="label-text text-base font-medium my-1">
                 Upload Image
               </span>
-            </label>
-            <div className="flex items-center gap-4">
-              <input
-                id="img-upload"
-                type="file"
-                className="file-input file-input-bordered w-full"
-                onChange={handleFileChange}
-                disabled={uploading}
-              />
+              <div className="flex items-center gap-4">
+                <input
+                  id="img-upload"
+                  type="file"
+                  className="file-input file-input-bordered w-full"
+                  onChange={handleFileChange}
+                  disabled={uploading}
+                />
 
-              <button
-                type="button"
-                className="btn btn-primary whitespace-nowrap"
-                onClick={handleUpload}
-                disabled={!file || uploading}
-              >
-                {uploading ? "Uploading..." : "Upload"}
-              </button>
-            </div>
+                <button
+                  type="button"
+                  className="btn btn-primary whitespace-nowrap"
+                  onClick={handleUpload}
+                  disabled={!file || uploading}
+                >
+                  {uploading ? "Uploading..." : "Upload"}
+                </button>
+              </div>
+            </label>
+
             {message && (
               <span role="status" className="text-sm text-info mt-2">
                 {message}
@@ -205,13 +206,13 @@ const AddProductModal = () => {
             <button
               type="button"
               className="btn btn-error"
-              onClick={() => {
-                return (
+              onClick={() =>
+                (
                   document.getElementById(
-                    "addProductModal"
+                    "addProductModal",
                   ) as HTMLDialogElement
-                )?.close();
-              }}
+                )?.close()
+              }
             >
               Cancel
             </button>
@@ -240,10 +241,10 @@ const AddProductModal = () => {
       </div>
 
       <form method="dialog" className="modal-backdrop">
-        <button>close</button>
+        <button type="button">close</button>
       </form>
     </dialog>
   );
-};
+}
 
 export default AddProductModal;

@@ -1,12 +1,13 @@
 import { render, screen } from "@testing-library/react";
-import * as useProductStoreModule from "../../src/store/useProductStore";
-import React from "react";
-import { Product } from "../../src/types/product";
+import * as React from "react";
+import { vi } from "vitest";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import ProductCard from "../../src/components/ProductCard";
 import userEvent from "@testing-library/user-event";
+import { Product } from "../../src/types/product";
+import ProductCard from "../../src/components/ProductCard";
+import * as useProductStoreModule from "../../src/store/useProductStore";
 
-interface useProductStoreReturn {
+interface UseProductStoreReturn {
   deleteProduct: () => Promise<void>;
 }
 const mockNavigate = vi.fn();
@@ -21,6 +22,14 @@ const mockProduct: Product = {
   created_at: new Date(),
 };
 
+vi.mock("react-router-dom", async () => {
+  const actual = await vi.importActual("react-router-dom");
+  return {
+    ...actual,
+    useNavigate: () => mockNavigate,
+  };
+});
+
 const renderWithRouter = (ui: React.ReactElement, initialEnteries = ["/"]) => {
   return render(
     <MemoryRouter initialEntries={initialEnteries}>
@@ -28,7 +37,7 @@ const renderWithRouter = (ui: React.ReactElement, initialEnteries = ["/"]) => {
         <Route path="/" element={ui} />
         <Route path="/product/:id" element={<div>Product Page</div>} />
       </Routes>
-    </MemoryRouter>
+    </MemoryRouter>,
   );
 };
 
@@ -42,7 +51,7 @@ describe("ProductCard Component", () => {
 
     const productName = screen.getByText("Test Product");
     const productDesc = screen.getByText("This is a test product");
-    const productPrice = screen.getByText("$ 99.99");
+    const productPrice = screen.getByText("$99.99");
     const productStock = screen.getByText("10");
     const productImg = screen.getByAltText("Test Product");
 
@@ -53,43 +62,36 @@ describe("ProductCard Component", () => {
     expect(productImg).toHaveAttribute("src", "/api/uploads/test-image.jpg");
   });
 
-  it("calls deleteProduct and navigate to the confirm delete window", async () => {
-    const mockDeleteProduct: useProductStoreReturn["deleteProduct"] = vi
+  it("calls deleteProduct and navigates after confirmation", async () => {
+    const mockDeleteProduct: UseProductStoreReturn["deleteProduct"] = vi
       .fn()
       .mockResolvedValue(undefined);
     vi.spyOn(useProductStoreModule, "useProductStore").mockReturnValue({
       deleteProduct: mockDeleteProduct,
-    } as useProductStoreReturn);
-
-    vi.spyOn(window, "confirm").mockReturnValueOnce(true);
-
-    vi.mock("react-router-dom", async () => {
-      const actual = await vi.importActual("react-router-dom");
-
-      return {
-        ...actual,
-        useNavigate: () => {
-          return mockNavigate;
-        },
-      };
-    });
+    } as UseProductStoreReturn);
 
     renderWithRouter(<ProductCard product={mockProduct} />);
-    const deleteIcon = screen.getByRole("button", { name: /delete-product/i });
-    expect(deleteIcon).toBeInTheDocument();
-    await userEvent.click(deleteIcon);
+
+    await userEvent.click(
+      screen.getByRole("button", { name: /delete-product/i }),
+    );
+    expect(
+      screen.getByText("Are you sure you want to delete this product?"),
+    ).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole("button", { name: "Delete" }));
 
     expect(mockDeleteProduct).toHaveBeenCalledWith(mockProduct.id);
     expect(mockNavigate).toHaveBeenCalledWith("/");
   });
 
   it("does not delete product if confirm is false", async () => {
-    const mockDeleteProduct: useProductStoreReturn["deleteProduct"] = vi
+    const mockDeleteProduct: UseProductStoreReturn["deleteProduct"] = vi
       .fn()
       .mockResolvedValue(undefined);
     vi.spyOn(useProductStoreModule, "useProductStore").mockReturnValue({
       deleteProduct: mockDeleteProduct,
-    } as useProductStoreReturn);
+    } as UseProductStoreReturn);
 
     vi.spyOn(window, "confirm").mockReturnValueOnce(false);
 

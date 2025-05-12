@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import * as useAuthStoreModule from "../../src/store/useAuthStore";
-import React from "react";
-import SignupPage from "../../src/pages/SignupPage";
+import { vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
+import SignupPage from "../../src/pages/SignupPage";
+import * as useAuthStoreModule from "../../src/store/useAuthStore";
 
 describe("SignupPage", () => {
   const mockSignin = vi.fn();
@@ -18,7 +18,7 @@ describe("SignupPage", () => {
     render(
       <MemoryRouter initialEntries={["/signup"]}>
         <SignupPage />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
   });
 

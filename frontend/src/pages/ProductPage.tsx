@@ -1,10 +1,10 @@
 import { Loader, SaveIcon, Trash2Icon } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useProductStore } from "../store/useProductStore";
-import { ChangeEvent, useEffect, useState } from "react";
+import { type ChangeEvent, useEffect, useState } from "react";
 import axios from "axios";
+import { useProductStore } from "../store/useProductStore";
 
-const ProductPage = () => {
+function ProductPage() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const {
@@ -18,6 +18,7 @@ const ProductPage = () => {
   } = useProductStore();
   const [file, setFile] = useState<File | null>(null);
   const [message, setMessage] = useState<string>("");
+  const [isConfirmOpen, setIsConfirmOpen] = useState<boolean>(false);
   const [uploading, setUploading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -82,12 +83,10 @@ const ProductPage = () => {
     }
   };
 
-  const handleDelete = async () => {
-    if (
-      id &&
-      window.confirm("Are you sure you want to delete this product ?")
-    ) {
+  const confirmDelete = async () => {
+    if (id) {
       await deleteProduct(Number(id));
+      setIsConfirmOpen(false);
       navigate("/");
     }
   };
@@ -95,6 +94,7 @@ const ProductPage = () => {
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl justify-items-center">
       <button
+        type="button"
         onClick={() => {
           return navigate("/");
         }}
@@ -117,84 +117,88 @@ const ProductPage = () => {
             }}
           >
             <div className="form-control">
-              <label className="label">
+              <label className="label" htmlFor="product-name">
                 <span className="label-text text-base font-medium my-1">
                   Product Name
                 </span>
+                <input
+                  id="product-name"
+                  type="text"
+                  placeholder="Enter product name"
+                  className="input input-bordered w-full my-1"
+                  value={formData.name}
+                  onChange={(e) => {
+                    return setFormData({ ...formData, name: e.target.value });
+                  }}
+                />
               </label>
-              <input
-                type="text"
-                placeholder="Enter product name"
-                className="input input-bordered w-full my-1"
-                value={formData.name}
-                onChange={(e) => {
-                  return setFormData({ ...formData, name: e.target.value });
-                }}
-              />
             </div>
 
             <div className="form-control">
-              <label className="label">
+              <label className="label" htmlFor="product-description">
                 <span className="label-text text-base font-medium my-1">
                   Product Description
                 </span>
+                <input
+                  id="product-description"
+                  type="text"
+                  placeholder="Enter product description"
+                  className="input input-bordered w-full my-1"
+                  value={formData.description}
+                  onChange={(e) => {
+                    return setFormData({
+                      ...formData,
+                      description: e.target.value,
+                    });
+                  }}
+                />
               </label>
-              <input
-                type="text"
-                placeholder="Enter product description"
-                className="input input-bordered w-full my-1"
-                value={formData.description}
-                onChange={(e) => {
-                  return setFormData({
-                    ...formData,
-                    description: e.target.value,
-                  });
-                }}
-              />
             </div>
 
             <div className="form-control">
-              <label className="label">
+              <label className="label" htmlFor="product-price">
                 <span className="label-text text-base font-medium my-1">
                   Price
                 </span>
+                <input
+                  id="product-price"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  placeholder="$ 0.00"
+                  className="input input-bordered w-full my-1"
+                  value={formData.price ?? ""}
+                  onChange={(e) => {
+                    return setFormData({
+                      ...formData,
+                      price: Number(e.target.value),
+                    });
+                  }}
+                />
               </label>
-              <input
-                type="number"
-                min="0"
-                step="0.01"
-                placeholder="$ 0.00"
-                className="input input-bordered w-full my-1"
-                value={formData.price ?? ""}
-                onChange={(e) => {
-                  return setFormData({
-                    ...formData,
-                    price: Number(e.target.value),
-                  });
-                }}
-              />
             </div>
 
             <div className="form-control">
-              <label className="label">
+              <label className="label" htmlFor="product-stock">
                 <span className="label-text text-base font-medium my-1">
                   Stock
                 </span>
+                <input
+                  id="product-stock"
+                  type="number"
+                  min="0"
+                  step="1"
+                  placeholder="0"
+                  className="input input-bordered w-full my-1"
+                  value={formData.stock ?? ""}
+                  onChange={(e) => {
+                    return setFormData({
+                      ...formData,
+                      stock: Number(e.target.value),
+                    });
+                  }}
+                />
               </label>
-              <input
-                type="number"
-                min="0"
-                step="1"
-                placeholder="0"
-                className="input input-bordered w-full my-1"
-                value={formData.stock ?? ""}
-                onChange={(e) => {
-                  return setFormData({
-                    ...formData,
-                    stock: Number(e.target.value),
-                  });
-                }}
-              />
             </div>
 
             <div className="form-control">
@@ -202,25 +206,26 @@ const ProductPage = () => {
                 <span className="label-text text-base font-medium my-1">
                   Change Image
                 </span>
-              </label>
-              <div className="flex items-center gap-4">
-                <input
-                  id="product-image"
-                  type="file"
-                  className="file-input file-input-bordered w-full"
-                  onChange={handleFileChange}
-                  disabled={uploading}
-                />
+                <div className="flex items-center gap-4">
+                  <input
+                    id="product-image"
+                    type="file"
+                    className="file-input file-input-bordered w-full"
+                    onChange={handleFileChange}
+                    disabled={uploading}
+                  />
 
-                <button
-                  type="button"
-                  className="btn btn-primary whitespace-nowrap"
-                  onClick={handleUpload}
-                  disabled={!file || uploading}
-                >
-                  {uploading ? "Uploading..." : "Upload"}
-                </button>
-              </div>
+                  <button
+                    type="button"
+                    className="btn btn-primary whitespace-nowrap"
+                    onClick={handleUpload}
+                    disabled={!file || uploading}
+                  >
+                    {uploading ? "Uploading..." : "Upload"}
+                  </button>
+                </div>
+              </label>
+
               {message && (
                 <span className="text-sm text-info mt-2">{message}</span>
               )}
@@ -241,12 +246,11 @@ const ProductPage = () => {
               <button
                 type="button"
                 className="btn btn-error"
-                onClick={handleDelete}
+                onClick={() => setIsConfirmOpen(true)}
               >
                 <Trash2Icon className="size-4 mr-2" />
                 Delete Product
               </button>
-
               <button
                 type="submit"
                 className="btn btn-primary"
@@ -270,8 +274,33 @@ const ProductPage = () => {
           </form>
         </div>
       </div>
+      {isConfirmOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+          <div className="bg-white text-black p-6 rounded-lg shadow-xl space-y-4">
+            <h3 className="text-lg font-semibold">
+              Are you sure you want to delete this product?
+            </h3>
+            <div className="flex justify-end space-x-4">
+              <button
+                type="button"
+                className="btn btn-sm btn-ghost"
+                onClick={() => setIsConfirmOpen(false)}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="btn btn-sm btn-error"
+                onClick={confirmDelete}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
-};
+}
 
 export default ProductPage;

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useAuthStore } from "../store/useAuthStore";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../store/useAuthStore";
 
-const LoginPage = () => {
+function LoginPage() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -27,17 +27,15 @@ const LoginPage = () => {
                 className="text-sm font-medium text-gray-300 block"
               >
                 Email
+                <input
+                  type="email"
+                  className="w-full px-3 py-2 mt-1 border-gray-700 rounded-md bg-tr text-white focus:outline-none focus:ring"
+                  placeholder="you@example.com"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </label>
-              <input
-                type="email"
-                className="w-full px-3 py-2 mt-1 border-gray-700 rounded-md bg-tr text-white focus:outline-none focus:ring"
-                placeholder="you@example.com"
-                id="email"
-                value={email}
-                onChange={(e) => {
-                  return setEmail(e.target.value);
-                }}
-              />
             </div>
 
             <div>
@@ -46,26 +44,31 @@ const LoginPage = () => {
                 className="text-sm font-medium text-gray-300 block"
               >
                 Password
+                <input
+                  type="text"
+                  className="w-full px-3 py-2 mt-1 border-gray-700 rounded-md bg-tr text-white focus:outline-none focus:ring"
+                  placeholder="************"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </label>
-              <input
-                type="text"
-                className="w-full px-3 py-2 mt-1 border-gray-700 rounded-md bg-tr text-white focus:outline-none focus:ring"
-                placeholder="************"
-                id="password"
-                value={password}
-                onChange={(e) => {
-                  return setPassword(e.target.value);
-                }}
-              />
             </div>
-            <button className="w-full py-2 text-white bg-red-600 font-semibold rounded-md hover:bg-red-700">
+            <button
+              type="submit"
+              className="w-full py-2 text-white bg-red-600 font-semibold rounded-md hover:bg-red-700"
+            >
               Login
             </button>
           </form>
 
           <div className="text-center text-gray-400">
             Don&apos;t have an account ?{" "}
-            <Link to={"/signup"} aria-label="signup" className="text-red-500 hover:underline">
+            <Link
+              to="/signup"
+              aria-label="signup"
+              className="text-red-500 hover:underline"
+            >
               Signup
             </Link>
           </div>
@@ -73,6 +76,6 @@ const LoginPage = () => {
       </div>
     </div>
   );
-};
+}
 
 export default LoginPage;

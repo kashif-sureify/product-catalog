@@ -14,9 +14,7 @@ export default function Pagination({
 }: PaginationProps) {
   const { setPage } = useProductStore();
 
-  const pages = Array.from({ length: totalPages }, (_, i) => {
-    return i + 1;
-  });
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
     <div className="flex items-center card justify-between border-t border-black bg-gray-200 px-4 py-3 sm:px-6">
@@ -35,9 +33,8 @@ export default function Pagination({
             className="isolate inline-flex -space-x-px rounded-md shadow-sm"
           >
             <button
-              onClick={() => {
-                return setPage(currentPage - 1);
-              }}
+              type="button"
+              onClick={() => setPage(currentPage - 1)}
               disabled={currentPage === 1}
               className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:opacity-50"
             >
@@ -45,28 +42,24 @@ export default function Pagination({
               <ChevronsLeftIcon className="size-5" aria-hidden="true" />
             </button>
 
-            {pages.map((page) => {
-              return (
-                <button
-                  key={page}
-                  onClick={() => {
-                    return setPage(page);
-                  }}
-                  className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${
-                    page === currentPage
-                      ? "z-10 bg-indigo-600 text-white focus-visible:outline-indigo-600"
-                      : "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                  }`}
-                >
-                  {page}
-                </button>
-              );
-            })}
+            {pages.map((page) => (
+              <button
+                type="button"
+                key={page}
+                onClick={() => setPage(page)}
+                className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${
+                  page === currentPage
+                    ? "z-10 bg-indigo-600 text-white focus-visible:outline-indigo-600"
+                    : "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                }`}
+              >
+                {page}
+              </button>
+            ))}
 
             <button
-              onClick={() => {
-                return setPage(currentPage + 1);
-              }}
+              type="button"
+              onClick={() => setPage(currentPage + 1)}
               disabled={currentPage === totalPages}
               className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:opacity-50"
             >
@@ -79,18 +72,16 @@ export default function Pagination({
 
       <div className="flex flex-1 justify-between sm:hidden">
         <button
-          onClick={() => {
-            return setPage(currentPage - 1);
-          }}
+          type="button"
+          onClick={() => setPage(currentPage - 1)}
           disabled={currentPage === 1}
           className="btn btn-outline btn-sm"
         >
           Previous
         </button>
         <button
-          onClick={() => {
-            return setPage(currentPage + 1);
-          }}
+          type="button"
+          onClick={() => setPage(currentPage + 1)}
           disabled={currentPage === totalPages}
           className="btn btn-outline btn-sm"
         >

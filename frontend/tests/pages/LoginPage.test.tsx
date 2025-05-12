@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import * as useAuthStoreModule from "../../src/store/useAuthStore";
-import React from "react";
+import { vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
+import * as useAuthStoreModule from "../../src/store/useAuthStore";
 import LoginPage from "../../src/pages/LoginPage";
 
 describe("LoginPage", () => {
@@ -18,7 +18,7 @@ describe("LoginPage", () => {
     render(
       <MemoryRouter initialEntries={["/login"]}>
         <LoginPage />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
   });
 
@@ -53,6 +53,6 @@ describe("LoginPage", () => {
     expect(header[0]).toBeInTheDocument();
 
     await userEvent.click(link);
-    expect(link).toHaveAttribute("href","/signup")
+    expect(link).toHaveAttribute("href", "/signup");
   });
 });

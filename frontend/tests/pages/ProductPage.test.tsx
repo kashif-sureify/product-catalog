@@ -1,12 +1,14 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import ProductPage from "../../src/pages/ProductPage";
-import * as useProductStoreModule from "../../src/store/useProductStore";
 import { BrowserRouter } from "react-router-dom";
-
-import React from "react";
+import { vi } from "vitest";
+import axios from "axios";
+import * as useProductStoreModule from "../../src/store/useProductStore";
+import ProductPage from "../../src/pages/ProductPage";
 
 // Mocks
+
+vi.mock("axios");
 
 const mockNavigate = vi.fn();
 
@@ -27,7 +29,7 @@ const renderPage = () => {
   return render(
     <BrowserRouter>
       <ProductPage />
-    </BrowserRouter>
+    </BrowserRouter>,
   );
 };
 
@@ -151,26 +153,34 @@ describe("ProductPage", () => {
     expect(mockNavigate).toHaveBeenCalledWith("/");
   });
 
-  it("calls deleteProduct after confirming", async () => {
-    vi.spyOn(window, "confirm").mockReturnValueOnce(true);
+  it("handles product deletion via confirmation modal", async () => {
     renderPage();
 
-    const dltBtn = screen.getByRole("button", { name: /delete product/i });
-    await userEvent.click(dltBtn);
+    const deleteBtn = screen.getByRole("button", { name: /delete product/i });
+    await userEvent.click(deleteBtn);
+
+    const confirmDeleteBtn = screen.getByRole("button", { name: "Delete" });
+    await userEvent.click(confirmDeleteBtn);
 
     await waitFor(() => {
       expect(mockDeleteProduct).toHaveBeenCalledWith(1);
+      expect(mockNavigate).toHaveBeenCalledWith("/");
     });
   });
 
   it("allows selecting and uploading a file", async () => {
+    // Mock the successful response from axios
+    (axios.post as jest.Mock).mockResolvedValue({
+      data: { filename: "example.png" },
+    });
+
     renderPage();
     const file = new File(["dummy content"], "example.png", {
       type: "image/png",
     });
 
     const fileInput = screen.getByLabelText(
-      /change image/i
+      /change image/i,
     ) as HTMLInputElement;
     await userEvent.upload(fileInput, file);
 
@@ -180,6 +190,7 @@ describe("ProductPage", () => {
     const uploadButton = screen.getByRole("button", { name: /upload/i });
     await userEvent.click(uploadButton);
 
+    // Wait for the "Image Uploaded" message to appear
     await waitFor(() => {
       expect(screen.getByText("Image Uploaded")).toBeInTheDocument();
     });
