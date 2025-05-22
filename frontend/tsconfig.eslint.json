@@ -3,6 +3,6 @@
         "jsx": "react-jsx"
     },
     "extends": "./tsconfig.json",
-    "include": ["src/**/*.ts", "src/**/*.tsx",".eslintrc.cjs","tests/**/*.test.tsx","tests/*.ts"]
+    "include": ["src/**/*.ts", "src/**/*.tsx",".eslintrc.cjs","tests/**/*.test.tsx","tests/*.ts","postcss.config.js"]
   }
   
