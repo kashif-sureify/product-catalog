@@ -1,56 +1,18 @@
 import { PlusCircleIcon } from "lucide-react";
-import { type ChangeEvent, useState } from "react";
-import axios from "axios";
 import { useProductStore } from "../store/useProductStore";
 
 function AddProductModal() {
-  const { formData, setFormData, addProduct, loading } = useProductStore();
-  const [file, setFile] = useState<File | null>(null);
-
-  const [message, setMessage] = useState<string>("");
-  const [uploading, setUploading] = useState<boolean>(false);
-
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0]);
-      setMessage("");
-    }
-  };
-
-  const handleUpload = async () => {
-    if (!file) {
-      return;
-    }
-
-    const uploadData = new FormData();
-    uploadData.append("image", file);
-
-    try {
-      setUploading(true);
-      setMessage("Uploading...");
-
-      const res = await axios.post("/api/upload/", uploadData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        onUploadProgress: (event) => {
-          const percent = Math.round((event.loaded * 100) / (event.total || 1));
-          setMessage(`Uploading....${percent} %`);
-        },
-      });
-
-      setFormData({ ...formData, image: res.data.filename });
-      setMessage("Image Uploaded");
-
-      setFile(null);
-      (document.querySelector("input[type='file']") as HTMLInputElement).value =
-        "";
-    } catch {
-      setMessage("Upload Failed");
-    } finally {
-      setUploading(false);
-    }
-  };
+  const {
+    formData,
+    setFormData,
+    addProduct,
+    handleFileChange,
+    handleUpload,
+    loading,
+    file,
+    message,
+    uploading,
+  } = useProductStore();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

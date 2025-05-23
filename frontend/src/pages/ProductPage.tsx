@@ -1,7 +1,6 @@
 import { Loader, SaveIcon, Trash2Icon } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
-import { type ChangeEvent, useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
 import { useProductStore } from "../store/useProductStore";
 
 function ProductPage() {
@@ -13,13 +12,15 @@ function ProductPage() {
     setFormData,
     updateProduct,
     deleteProduct,
+    handleUpload,
+    handleFileChange,
+    file,
+    message,
+    uploading,
     loading,
     error,
   } = useProductStore();
-  const [file, setFile] = useState<File | null>(null);
-  const [message, setMessage] = useState<string>("");
   const [isConfirmOpen, setIsConfirmOpen] = useState<boolean>(false);
-  const [uploading, setUploading] = useState<boolean>(false);
 
   useEffect(() => {
     if (id) {
@@ -42,46 +43,6 @@ function ProductPage() {
       </div>
     );
   }
-
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0]);
-      setMessage("");
-    }
-  };
-
-  const handleUpload = async () => {
-    if (!file) {
-      setMessage("Please upload a file!");
-      return;
-    }
-
-    const uploadData = new FormData();
-    uploadData.append("image", file);
-
-    try {
-      setUploading(true);
-      setMessage("Uploading...");
-
-      const res = await axios.post("/api/upload/", uploadData, {
-        onUploadProgress: (event) => {
-          const percent = Math.round((event.loaded * 100) / (event.total || 1));
-          setMessage(`Uploading....${percent} %`);
-        },
-      });
-
-      setFormData({ ...formData, image: res.data.filename });
-      setMessage("Image Uploaded");
-
-      setFile(null);
-      (document.querySelector("input[type='file']") as HTMLInputElement).value =
-        "";
-    } catch {
-      setMessage("Upload Failed");
-    } finally {
-      setUploading(false);
-    }
-  };
 
   const confirmDelete = async () => {
     if (id) {

@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import axios from "axios";
 import toast from "react-hot-toast";
+import type { ChangeEvent } from "react";
 import type { Product } from "../types/product";
 
 interface ProductStore {
@@ -12,6 +13,12 @@ interface ProductStore {
   totalProducts: number | null;
   loading: boolean;
   error: string | null;
+
+  file: File | null;
+  message: String;
+  uploading: boolean;
+  handleFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleUpload: () => Promise<void>;
 
   formData: Omit<Product, "id" | "created_at">;
   setFormData: (formData: ProductStore["formData"]) => void;
@@ -31,6 +38,9 @@ export const useProductStore = create<ProductStore>((set, get) => ({
   totalProducts: null,
   loading: false,
   error: null,
+  file: null,
+  message: "",
+  uploading: false,
   formData: {
     name: "",
     description: "",
@@ -50,6 +60,46 @@ export const useProductStore = create<ProductStore>((set, get) => ({
         image: "",
       },
     }),
+  handleFileChange: (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      set({ file });
+    }
+  },
+  handleUpload: async () => {
+    const { file, formData, setFormData } = get();
+    if (file) {
+      const uploadData = new FormData();
+      uploadData.append("image", file);
+
+      set({ uploading: true, message: "Uploading..." });
+      try {
+        const res = await axios.post("/api/upload", uploadData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          onUploadProgress: (event) => {
+            const percent = Math.round(
+              (event.loaded * 100) / (event.total || 1),
+            );
+            set({ message: `Uploading......${percent} %` });
+          },
+        });
+
+        setFormData({ ...formData, image: res.data.filename });
+        set({ message: "Image uploaded", file: null });
+        toast.success("Image uploaded successfully!");
+        (
+          document.querySelector("input[type='file']") as HTMLInputElement
+        ).value = "";
+      } catch (error) {
+        set({ message: "Upload Failed" });
+        toast.error("Image uploaded failed");
+      } finally {
+        set({ uploading: false });
+      }
+    }
+  },
 
   fetchProducts: async (currentPage, limit) => {
     set({ loading: true });
